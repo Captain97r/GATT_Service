@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GATT_Service", "GATT_Service\GATT_Service.vcxproj", "{804403E1-6818-4BEC-A252-5F96F3671C9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|VisualGDB = Debug|VisualGDB
+		Release|VisualGDB = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{804403E1-6818-4BEC-A252-5F96F3671C9B}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{804403E1-6818-4BEC-A252-5F96F3671C9B}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{804403E1-6818-4BEC-A252-5F96F3671C9B}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{804403E1-6818-4BEC-A252-5F96F3671C9B}.Release|VisualGDB.Build.0 = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0588C136-D327-4FD3-89EB-887CAAFC5F16}
+	EndGlobalSection
+EndGlobal
