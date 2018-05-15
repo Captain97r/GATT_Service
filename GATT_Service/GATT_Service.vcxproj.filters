@@ -271,6 +271,9 @@
     <ClCompile Include="ble_cus.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="chars.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pca10040\s132\config\sdk_config.h">
@@ -412,6 +415,9 @@
       <Filter>Header files\Device-specific files</Filter>
     </ClInclude>
     <ClInclude Include="ble_cus.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="chars.h">
       <Filter>Source files</Filter>
     </ClInclude>
   </ItemGroup>

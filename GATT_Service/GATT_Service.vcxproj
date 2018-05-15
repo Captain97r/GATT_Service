@@ -110,6 +110,7 @@
     <ClCompile Include="..\..\..\..\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.nordic.nrf5x\nRF5x\external\segger_rtt\SEGGER_RTT_printf.c" />
     <ClCompile Include="..\..\..\..\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.nordic.nrf5x\nRF5x\external\segger_rtt\SEGGER_RTT_Syscalls_GCC.c" />
     <ClCompile Include="ble_cus.cpp" />
+    <ClCompile Include="chars.cpp" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="..\..\..\..\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.nordic.nrf5x\nRF5x\components\toolchain\system_nrf52810.h" />
     <ClInclude Include="..\..\..\..\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.nordic.nrf5x\nRF5x\components\toolchain\system_nrf52840.h" />
     <ClInclude Include="ble_cus.h" />
+    <ClInclude Include="chars.h" />
     <ClInclude Include="pca10040e\s112\config\sdk_config.h" />
     <ClInclude Include="pca10040\s132\config\sdk_config.h" />
     <ClInclude Include="pca10056\s140\config\sdk_config.h" />

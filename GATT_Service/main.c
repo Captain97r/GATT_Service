@@ -445,7 +445,7 @@ static void services_init(void)
 	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.read_perm);
 	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.write_perm);
 	
-	err_code = ble_cus_init(&m_cus, &cus_init);
+	err_code = ble_service_init(&m_cus, &cus_init);
 	APP_ERROR_CHECK(err_code);	
 	
 }

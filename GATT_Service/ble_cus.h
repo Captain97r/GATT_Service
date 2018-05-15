@@ -102,18 +102,9 @@ struct ble_cus_s
  *
  * @return      NRF_SUCCESS on successful initialization of service, otherwise an error code.
  */
-uint32_t ble_cus_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init);
+uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init);
 
 
-
-/**@brief Function for adding the Custom Value characteristic.
- *
- * @param[in]   p_cus        Custom Service structure.
- * @param[in]   p_cus_init   Information needed to initialize the service.
- *
- * @return      NRF_SUCCESS on success, otherwise an error code.
- */
-static uint32_t custom_value_char_add(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init);
 
 
 

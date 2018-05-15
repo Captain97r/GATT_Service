@@ -1,17 +1,17 @@
 #include "sdk_common.h"
 #include "ble_srv_common.h"
-#include "ble_cus.h"
 #include <string.h>
 #include "nrf_gpio.h"
 #include "boards.h"
 #include "nrf_log.h"
+#include "chars.cpp"
 
 
 
 
 
 
-uint32_t ble_cus_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
+uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
 {
 	if (p_cus == NULL || p_cus_init == NULL)
 	{
@@ -41,80 +41,12 @@ uint32_t ble_cus_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
 		return err_code;
 	}
 	
-	return custom_value_char_add(p_cus, p_cus_init);
+	patient_first_name_value_char_add(p_cus, p_cus_init);
+	patient_last_name_value_char_add(p_cus, p_cus_init);
+	patient_age_value_char_add(p_cus, p_cus_init);
+	return patient_birth_date_value_char_add(p_cus, p_cus_init);
 }
 
-
-
-
-static uint32_t custom_value_char_add(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
-{
-	uint32_t            err_code;
-	ble_gatts_char_md_t char_md;
-	ble_gatts_attr_md_t cccd_md;
-	ble_gatts_attr_t    attr_char_value;
-	ble_uuid_t          ble_uuid;
-	ble_gatts_attr_md_t attr_md;
-	
-	
-	memset(&cccd_md, 0, sizeof(cccd_md));
-
-    //  Read  operation on Cccd should be possible without authentication.
-	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cccd_md.read_perm);
-	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cccd_md.write_perm);
-    
-	cccd_md.vloc       = BLE_GATTS_VLOC_STACK;
-	
-	
-	memset(&char_md, 0, sizeof(char_md));
-
-	char_md.char_props.read   = 1;
-	char_md.char_props.write  = 1;
-	char_md.char_props.notify = 1; 
-	char_md.p_char_user_desc  = NULL;
-	char_md.p_char_pf         = NULL;
-	char_md.p_user_desc_md    = NULL;
-	char_md.p_cccd_md         = &cccd_md; 
-	char_md.p_sccd_md         = NULL;
-	
-	
-	memset(&attr_md, 0, sizeof(attr_md));
-
-	attr_md.read_perm  = p_cus_init->custom_value_char_attr_md.read_perm;
-	attr_md.write_perm = p_cus_init->custom_value_char_attr_md.write_perm;
-	attr_md.vloc       = BLE_GATTS_VLOC_STACK;
-	attr_md.rd_auth    = 0;
-	attr_md.wr_auth    = 0;
-	attr_md.vlen       = 0;
-	
-	
-	
-	ble_uuid.type = p_cus->uuid_type;
-	ble_uuid.uuid = CUSTOM_VALUE_CHAR_UUID;
-	
-	
-	
-	memset(&attr_char_value, 0, sizeof(attr_char_value));
-
-	attr_char_value.p_uuid    = &ble_uuid;
-	attr_char_value.p_attr_md = &attr_md;
-	attr_char_value.init_len  = sizeof(uint8_t);
-	attr_char_value.init_offs = 0;
-	attr_char_value.max_len   = MAX_CHAR_LENGTH * sizeof(uint8_t);
-	
-	
-	
-	err_code = sd_ble_gatts_characteristic_add(p_cus->service_handle,
-											   &char_md,
-											   &attr_char_value,
-											   &p_cus->custom_value_handles);
-	if (err_code != NRF_SUCCESS)
-	{
-		return err_code;
-	}
-
-	return NRF_SUCCESS;
-}
 
 
 
