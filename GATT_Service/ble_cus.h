@@ -4,15 +4,20 @@
 #include "ble_srv_common.h"
 
 
-#define CUSTOM_SERVICE_UUID_BASE         {0x85, 0xD2, 0xAA, 0x52, 0x0A, 0xAC, \
+
+#define SERVICE_UUID_BASE				  {0x85, 0xD2, 0xAA, 0x52, 0x0A, 0xAC, \
 										  0xCE, 0x88, \
 										  0xC6, 0x4C, \
 										  0xB9, 0x07, \
-										  0xB0, 0xA8, 0xCF, 0xD5}								// Service UUID: d5cfa8b0-07b9-4cc6-88ce-ac0a52aad285 (reversed for small-endian representation)
+										  0xB0, 0xA8, 0xCF, 0xD5}								// Base UUID: d5cfa8b0-07b9-4cc6-88ce-ac0a52aad285 (reversed for small-endian representation)
 
-#define CUSTOM_SERVICE_UUID               0x1400												//Characteristic UUID
-#define CUSTOM_VALUE_CHAR_UUID            0x1401												//Value UUID
+
+
+
+#define CUSTOM_SERVICE_UUID               0x1500												//Characteristic UUID
+
 //#define MAX_CHAR_LENGTH                   NRF_SDH_BLE_GATT_MAX_MTU_SIZE - 3
+
 #define MAX_CHAR_LENGTH                   1
 
 
@@ -23,8 +28,8 @@
  * @param   _name   Name of the instance.
  * @hideinitializer
  */
-#define BLE_CUS_DEF(_name)     \
-static ble_cus_t _name;		   \
+#define BLE_CUS_DEF(_name)																			\
+static ble_cus_t _name;																				\
 NRF_SDH_BLE_OBSERVER(_name ## _obs,                                                                 \
                      BLE_HRS_BLE_OBSERVER_PRIO,                                                     \
                      ble_cus_on_ble_evt, &_name)
@@ -102,7 +107,7 @@ struct ble_cus_s
  *
  * @return      NRF_SUCCESS on successful initialization of service, otherwise an error code.
  */
-uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init);
+uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init, uint8_t * service_num);
 
 
 
@@ -170,3 +175,20 @@ static void on_write(ble_cus_t * p_cus, ble_evt_t * p_ble_evt);
 uint32_t ble_cus_custom_value_update(ble_cus_t * p_cus, uint8_t custom_value);
 
 
+
+
+
+/**@brief Function for creating specified characteristics.
+ *
+ * @details The application calls this function for initialize custom characteristic set.
+ *
+ * @note 
+ *       
+ * @param[in]   p_cus          Custom Service structure.
+ * @param[in]   p_cus_init	   Information needed to initialize the service.
+ * @param[in]   service_num	   Service identificator
+ *
+ * @return      NRF_SUCCESS on success, otherwise an error code.  
+ */
+
+uint32_t ble_chars_create(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init, uint8_t * service_num);

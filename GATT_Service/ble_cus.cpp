@@ -11,7 +11,7 @@
 
 
 
-uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
+uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init, uint8_t * service_num)
 {
 	if (p_cus == NULL || p_cus_init == NULL)
 	{
@@ -20,18 +20,23 @@ uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
 
 	uint32_t   err_code;
 	ble_uuid_t ble_uuid;
+	ble_uuid128_t base_uuid = SERVICE_UUID_BASE;
 	
 	p_cus->evt_handler               = p_cus_init->evt_handler;
 	p_cus->conn_handle               = BLE_CONN_HANDLE_INVALID;								// Initialize service structure
+	p_cus->uuid_type                 = BLE_UUID_TYPE_VENDOR_BEGIN;
 	
 	
 	//Adding Custom Service UUID to the BLE stack's table
-	ble_uuid128_t base_uuid = { CUSTOM_SERVICE_UUID_BASE };
-	err_code =  sd_ble_uuid_vs_add(&base_uuid, &p_cus->uuid_type);
-	VERIFY_SUCCESS(err_code);
-
-	ble_uuid.type = p_cus->uuid_type;
-	ble_uuid.uuid = CUSTOM_SERVICE_UUID;
+	if (*service_num == 0)
+	{		
+		err_code =  sd_ble_uuid_vs_add(&base_uuid, &p_cus->uuid_type);
+		VERIFY_SUCCESS(err_code);
+	}
+	
+	
+	ble_uuid.type = BLE_UUID_TYPE_VENDOR_BEGIN;
+	ble_uuid.uuid = CUSTOM_SERVICE_UUID + *service_num;
 	
 	
 	// Add the Custom Service
@@ -41,13 +46,47 @@ uint32_t ble_service_init(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init)
 		return err_code;
 	}
 	
-	patient_first_name_value_char_add(p_cus, p_cus_init);
-	patient_last_name_value_char_add(p_cus, p_cus_init);
-	patient_age_value_char_add(p_cus, p_cus_init);
-	return patient_birth_date_value_char_add(p_cus, p_cus_init);
+	
+	return ble_chars_create(p_cus, p_cus_init, service_num);
 }
 
 
+
+uint32_t ble_chars_create(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_init, uint8_t * service_num)
+{
+	uint32_t   err_code;
+	
+	if (*service_num == 0)
+	{
+		err_code = patient_first_name_value_char_add(p_cus, p_cus_init);
+		if (err_code != NRF_SUCCESS)
+			return err_code;
+	
+		err_code = patient_last_name_value_char_add(p_cus, p_cus_init);
+		if (err_code != NRF_SUCCESS)
+			return err_code;
+	
+		err_code = patient_age_value_char_add(p_cus, p_cus_init);
+		if (err_code != NRF_SUCCESS)
+			return err_code;
+		
+		err_code = patient_birth_date_value_char_add(p_cus, p_cus_init);
+		if (err_code != NRF_SUCCESS)
+			return err_code;
+	}
+	
+	if (*service_num == 1)
+	{
+		for (uint8_t num = 1; num <= 8; num++)
+		{
+			err_code = channel_value_char_add(p_cus, p_cus_init, &num);
+			if (err_code != NRF_SUCCESS)
+				return err_code;
+		}
+	}
+	
+	return err_code;
+}
 
 
 

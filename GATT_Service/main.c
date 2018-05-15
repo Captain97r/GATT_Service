@@ -118,7 +118,9 @@ NRF_BLE_GATT_DEF(m_gatt);                                                       
 BLE_ADVERTISING_DEF(m_advertising);                                             /**< Advertising module instance. */
 
 
-BLE_CUS_DEF(m_cus);																//Adding Custom Service Instance named *m_cus* 
+BLE_CUS_DEF(user_service);														//Adding a service instance named *user_service* 
+BLE_CUS_DEF(ds_service);														//Adding a service instance named *ds_service* 
+
 APP_TIMER_DEF(m_notification_timer_id);
 
 static uint8_t m_custom_value = 0;
@@ -273,7 +275,7 @@ static void notification_timeout_handler(void * p_context)
 	// Increment the value of m_custom_value before nortifing it.
 	m_custom_value++;
     
-	err_code = ble_cus_custom_value_update(&m_cus, m_custom_value);
+	err_code = ble_cus_custom_value_update(&user_service, m_custom_value);
 	APP_ERROR_CHECK(err_code);
 }
 
@@ -437,16 +439,25 @@ static void services_init(void)
 	ret_code_t                         err_code;
 	ble_cus_init_t                     cus_init;
 	
+	uint8_t service_num = 0;
+	
 	// Initialize CUS Service init structure to zero.
 	memset(&cus_init, 0, sizeof(cus_init));
 	
 	cus_init.evt_handler                = on_cus_evt;
+	cus_init.initial_custom_value       = 0x01;
 	
 	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.read_perm);
 	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cus_init.custom_value_char_attr_md.write_perm);
 	
-	err_code = ble_service_init(&m_cus, &cus_init);
+	
+	err_code = ble_service_init(&user_service, &cus_init, &service_num);
 	APP_ERROR_CHECK(err_code);	
+	
+	service_num = 1;
+	
+	err_code = ble_service_init(&ds_service, &cus_init, &service_num);
+	APP_ERROR_CHECK(err_code);
 	
 }
 
